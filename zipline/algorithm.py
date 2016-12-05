@@ -285,7 +285,7 @@ class TradingAlgorithm(object):
         # If a schedule has been provided, pop it. Otherwise, use NYSE.
         self.trading_calendar = kwargs.pop(
             'trading_calendar',
-            get_calendar("NYSE")
+            get_calendar("TSE")
         )
 
         # set the capital base
@@ -518,7 +518,7 @@ class TradingAlgorithm(object):
         before_trading_start_minutes = days_at_time(
             self.sim_params.sessions,
             time(8, 45),
-            "US/Eastern"
+            "Asia/Tokyo"
         )
 
         return MinuteSimulationClock(
