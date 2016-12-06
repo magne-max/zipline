@@ -13,6 +13,7 @@ from .core import (
     unregister,
 )
 from .yahoo import yahoo_equities
+from .quandl_tse import quandl_xjpx
 
 
 __all__ = [
@@ -27,4 +28,5 @@ __all__ = [
     'to_bundle_ingest_dirname',
     'unregister',
     'yahoo_equities',
+    'quandl_xjpx',
 ]

@@ -614,3 +614,4 @@ bundles, register, unregister, ingest, load, clean = _make_bundle_core()
 
 register_calendar("YAHOO", get_calendar("NYSE"))
 register_calendar("QUANDL", get_calendar("NYSE"))
+register_calendar("QUANDL-XJPX", get_calendar("TSE"))
