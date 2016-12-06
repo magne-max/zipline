@@ -28,7 +28,12 @@ Zipline で国内銘柄を扱ったバックテストができるようにフォ
     downloading quandl-xjpx.h5. you may have to wait a few minutes...
     (snip)
 
-やや時間がかかる（要修正）
+このステップでは以下の問題点があるため、今後改善すべきである。
+
+* boto3 の問題でサイズの大きなデータをダウンロードする場合に SSLError が発生する（socket.timeout: The read operation timed out などの例外がたまに発生）
+* 取引高が uint32 に収まらない日は NaT に置き換わる（対策を検討する必要があるが、後回し）
+* データのダウンロード後のインポート処理に３０分ほど時間がかかる（bcolz バイナリデータを S3 に保存するなどの対策が必要）
+
 データの取得が終わったら、このデータを使って以下のサンプルアルゴリズムを動かすことができる。
 
 .. code:: python
