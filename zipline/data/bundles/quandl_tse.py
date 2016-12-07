@@ -177,11 +177,19 @@ def quandl_xjpx(symbols, start=None, end=None):
         )
         splits.drop('action', axis=1, inplace=True)
 
+        splits = pd.read_hdf(os.path.expanduser(XJPX_PATH), 'split')
+        splits['sid'] = splits.sid.apply(lambda x: symbol_map[x])
+
         dividends = adj_df[adj_df.action == 'DIVIDEND']
         dividends = dividends.rename(
             columns={'value': 'amount', 'date': 'ex_date'},
         )
         dividends.drop('action', axis=1, inplace=True)
+
+        dividends = pd.read_hdf(os.path.expanduser(XJPX_PATH), 'dividends')
+        dividends['sid'] = dividends.ecode.apply(lambda x: symbol_map[x])
+        dividends.drop('ecode', axis=1, inplace=True)
+
         # we do not have this data in the yahoo dataset
         dividends['record_date'] = pd.NaT
         dividends['declared_date'] = pd.NaT
@@ -201,8 +209,9 @@ ecodes = pd.read_csv(
 
 register(
     'quandl-xjpx',
-    quandl_xjpx(['TOPIX'] + ecodes),
+    # quandl_xjpx(['TOPIX'] + ecodes),
+    quandl_xjpx(ecodes),
     'QUANDL-XJPX',
     pd.Timestamp('2007-01-04', tz='utc'),
-    pd.Timestamp('2016-10-03', tz='utc'),
+    pd.Timestamp('2016-12-02', tz='utc'),
 )
