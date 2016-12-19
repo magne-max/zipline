@@ -12,7 +12,7 @@ from .core import (
     to_bundle_ingest_dirname,
     unregister,
 )
-from .yahoo import yahoo_equities
+# from .yahoo import yahoo_equities
 from .quandl_tse import quandl_xjpx
 
 

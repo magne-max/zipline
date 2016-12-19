@@ -27,12 +27,9 @@ QUANDL_XJPX_COLS = [
     "adj_type",
 ]
 MAX_VOL = 2 ** 32 - 1
-SYMBOLS = [
-    # '6501',  # Hitachi
-    '5406',  # Kobe Steel
-    # '7162',  # AstMax
-    # 'TOPIX',
-]
+SYMBOLS = pd.read_csv(
+    os.path.join(QUANDL_DIR, "quandl-xjpx.ecodes.topix500.csv")
+).ecode.astype(str).tolist()
 
 
 def preprocessing():

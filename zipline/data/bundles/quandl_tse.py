@@ -85,11 +85,11 @@ def quandl_xjpx(symbols, start=None, end=None):
             ('auto_close_date', 'datetime64[ns]'),
             ('symbol', 'object'),
         ]))
+        candle_base = pd.read_hdf(os.path.expanduser(XJPX_PATH), 'xjpx')
+        candle_base['ecode'].astype(str, inplace=True)
 
         if not _download_hdf():
             raise RuntimeError("download step failed.")
-
-        base = pd.read_hdf(os.path.expanduser(XJPX_PATH), 'xjpx')
 
         def _pricing_iter():
             sid = 0
@@ -115,7 +115,9 @@ def quandl_xjpx(symbols, start=None, end=None):
                             df.loc[:, 'volume'] = 0
                             cache[path] = df
                         else:
-                            df = base[base.ecode == symbol].copy()
+                            df = candle_base[
+                                candle_base.ecode == symbol
+                            ].copy()
                             df.loc[:, 'date'] = pd.to_datetime(df.date)
                             df.set_index('date', inplace=True)
 
@@ -209,8 +211,8 @@ ecodes = pd.read_csv(
 
 register(
     'quandl-xjpx',
-    # quandl_xjpx(['TOPIX'] + ecodes),
-    quandl_xjpx(ecodes),
+    quandl_xjpx(['TOPIX'] + ecodes),
+    # quandl_xjpx(ecodes),
     'QUANDL-XJPX',
     pd.Timestamp('2007-01-04', tz='utc'),
     pd.Timestamp('2016-12-02', tz='utc'),
