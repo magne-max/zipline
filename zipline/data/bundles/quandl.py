@@ -272,7 +272,7 @@ def gen_symbol_data(api_key,
                 sleep(remaining)
 
 
-@bundles.register('quandl')
+# @bundles.register('quandl')
 def quandl_bundle(environ,
                   asset_db_writer,
                   minute_bar_writer,
@@ -377,7 +377,7 @@ QUANTOPIAN_QUANDL_URL = (
 ONE_MEGABYTE = 1024 * 1024
 
 
-@bundles.register('quantopian-quandl', create_writers=False)
+# @bundles.register('quantopian-quandl', create_writers=False)
 def quantopian_quandl_bundle(environ,
                              asset_db_writer,
                              minute_bar_writer,
