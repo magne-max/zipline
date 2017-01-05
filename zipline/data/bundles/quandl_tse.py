@@ -78,6 +78,8 @@ def quandl_xjpx(symbols, start=None, end=None):
             start = start_session
         if end is None:
             end = end_session
+        if not _download_hdf():
+            raise RuntimeError("download step failed.")
 
         metadata = pd.DataFrame(np.empty(len(symbols), dtype=[
             ('start_date', 'datetime64[ns]'),
@@ -87,9 +89,6 @@ def quandl_xjpx(symbols, start=None, end=None):
         ]))
         candle_base = pd.read_hdf(os.path.expanduser(XJPX_PATH), 'xjpx')
         candle_base['ecode'].astype(str, inplace=True)
-
-        if not _download_hdf():
-            raise RuntimeError("download step failed.")
 
         def _pricing_iter():
             sid = 0

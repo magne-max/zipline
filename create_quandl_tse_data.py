@@ -42,6 +42,7 @@ def preprocessing():
     df = df[(df.ecode.str.endswith('_UADJ')) & (df.n_elems == 2)]
     df.drop('n_elems', axis=1, inplace=True)
 
+    print(len(df[df['volume'] > MAX_VOL]))
     df.loc[:, 'ecode'] = df.ecode.str[:-5]
     df.loc[:, 'volume'] = df.volume.clip(0, MAX_VOL)
     df.ecode.astype(int, inplace=True)
@@ -54,11 +55,13 @@ def preproc_split():
     # df = df[df.ecode.isin(SYMBOLS)].dropna(subset=['adj_type'])
     df = df[df.ecode.isin(SYMBOLS)]
     df.loc[:, 'date'] = pd.to_datetime(df.date)
+    df.loc[:, 'date_shift'] = df.date.shift(1)
+    df.dropna(inplace=True)
 
     # fig, ax = plt.subplots(1, 1, figsize=(14, 7))
     # ax.plot(df.date, df.adj_factor)
     # plt.savefig('adj.png')
-    df.set_index('date', inplace=True)
+    df.set_index('date_shift', inplace=True)
     df.index.name = 'effective_date'
     df = df[
         (df.adj_type == 6.0) &
