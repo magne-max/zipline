@@ -10,7 +10,10 @@ $ python transform_quandl_xjpx_archive.py
 ```
 """
 import tarfile
+import os
 
 
 with tarfile.open('/tmp/quandl-xjpx.tar', 'w') as f:
-    f.add('/tmp/quandl-xjpx')
+    os.chdir('/tmp/quandl-xjpx')
+    for fn in os.listdir('.'):
+        f.add(fn)
