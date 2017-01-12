@@ -1,7 +1,9 @@
 # These imports are necessary to force module-scope register calls to happen.
 from . import quandl  # noqa
-# from . import quandl_tse
+
+# from . import quandl_xjpx_prev
 from . import quandl_xjpx
+
 from .core import (
     UnknownBundle,
     bundles,
