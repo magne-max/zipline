@@ -2377,7 +2377,6 @@ class TradingAlgorithm(object):
         )
 
         end_session = sessions[end_loc]
-
         return \
             self.engine.run_pipeline(pipeline, start_session, end_session), \
             end_session

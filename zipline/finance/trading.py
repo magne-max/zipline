@@ -78,7 +78,7 @@ class TradingEnvironment(object):
         self,
         load=None,
         bm_symbol='^GSPC',
-        exchange_tz="US/Eastern",
+        exchange_tz="Asia/Tokyo",
         trading_calendar=None,
         asset_db_path=':memory:'
     ):
@@ -88,7 +88,7 @@ class TradingEnvironment(object):
             load = load_market_data
 
         if not trading_calendar:
-            trading_calendar = get_calendar("NYSE")
+            trading_calendar = get_calendar("TSE")
 
         self.benchmark_returns, self.treasury_curves = load(
             trading_calendar.day,

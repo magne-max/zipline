@@ -39,10 +39,8 @@ class USEquityPricingLoader(PipelineLoader):
     def __init__(self, raw_price_loader, adjustments_loader):
         self.raw_price_loader = raw_price_loader
         self.adjustments_loader = adjustments_loader
-
         cal = self.raw_price_loader.trading_calendar or \
-            get_calendar("NYSE")
-
+            get_calendar("TSE")
         self._all_sessions = cal.all_sessions
 
     @classmethod

@@ -178,7 +178,6 @@ class SimplePipelineEngine(object):
         extra_rows = graph.extra_rows[self._root_mask_term]
         root_mask = self._compute_root_mask(start_date, end_date, extra_rows)
         dates, assets, root_mask_values = explode(root_mask)
-
         results = self.compute_chunk(
             graph,
             dates,
