@@ -517,7 +517,7 @@ class TradingAlgorithm(object):
         # FIXME generalize these values
         before_trading_start_minutes = days_at_time(
             self.sim_params.sessions,
-            time(8, 45),
+            time(9, 00),
             "Asia/Tokyo"
         )
 
@@ -2363,7 +2363,6 @@ class TradingAlgorithm(object):
         PipelineEngine.run_pipeline
         """
         sessions = self.trading_calendar.all_sessions
-
         # Load data starting from the previous trading day...
         start_date_loc = sessions.get_loc(start_session)
 

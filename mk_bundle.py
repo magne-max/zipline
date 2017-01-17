@@ -196,22 +196,43 @@ def preproc_candlestick():
     # Clip large values to handle on zipline.
     df.loc[:, 'volume'] = df.volume.clip(0, MAX_VOL)
 
+    df_frames = []
+    date_ser = pd.Series(index=df.date.unique())
+    for ecode, df_part in tqdm.tqdm(df.groupby('ecode')):
+        start_date = df_part.iloc[0].date
+        end_date = df_part.iloc[-1].date
+
+        df_part = pd.DataFrame(dict(date=date_ser.index)).merge(
+            df[df.ecode == ecode], how='left', on='date')
+        df_part = df_part.set_index('date')
+        df_part = df_part[start_date:end_date]
+        df_part.loc[:, 'ecode'] = df_part.ecode.fillna(method='ffill')
+        df_part.loc[:, 'volume'] = df_part.volume.fillna(0.0)
+        df_part.loc[:, 'close'] = df_part.close.fillna(method='ffill')
+        df_part.loc[:, 'open'] = df_part.open.fillna(df_part.close)
+        df_part.loc[:, 'high'] = df_part.high.fillna(df_part.close)
+        df_part.loc[:, 'low'] = df_part.low.fillna(df_part.close)
+        df_part = df_part.reset_index()
+        df_frames.append(df_part)
+
+    df = pd.concat(df_frames).reset_index().drop('index', axis=1)
+
     with pd.get_store(QUANDL_TEMP_FN, **COMPRESSION_PARAMS) as st:
         st.put('candlestick', df, format='fixed')
 
 
 def main():
-    # logger.info("Processing metadata...")
-    # preproc_meta()
+    logger.info("Processing metadata...")
+    preproc_meta()
 
-    # logger.info("Processing candlestick...")
-    # preproc_candlestick()
+    logger.info("Processing candlestick...")
+    preproc_candlestick()
 
-    # logger.info("Processing benchmark...")
-    # preproc_benchmark()
+    logger.info("Processing benchmark...")
+    preproc_benchmark()
 
-    # logger.info("Processing split...")
-    # preproc_split()
+    logger.info("Processing split...")
+    preproc_split()
 
     logger.info("Processing dividend...")
     preproc_dividend()
